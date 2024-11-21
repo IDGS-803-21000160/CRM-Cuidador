@@ -1,10 +1,10 @@
-import React from "react";
+import SideBar from "../modules/admin/components/SideBar";
 
 const AdminLayout = ({ children }) => {
   return (
     <div className="admin-layout">
-      <header>Admin Header</header>
-      <main>{children}</main>
+      <SideBar />
+      <div className="admin-content">{children}</div>
     </div>
   );
 };

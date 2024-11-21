@@ -1,12 +1,15 @@
 import { createRoot } from "react-dom/client";
-import { BrowserRouter as Router } from "react-router-dom";
-import AppRoutes from "./routes/AppRoutes";
+import { StrictMode } from "react";
+import { BrowserRouter } from "react-router-dom";
 
-import "./index.css";
+import App from "./App";
+
 import "./styles/tailwind.css";
 
 createRoot(document.getElementById("root")).render(
-  <Router>
-    <AppRoutes />
-  </Router>
+  <StrictMode>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </StrictMode>
 );

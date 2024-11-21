@@ -1,15 +1,10 @@
-import { Route, Routes } from "react-router-dom";
-import AuthLayout from "../../layouts/AuthLayout";
-import LoginPage from "./LoginPage";
+import { Routes, Route } from "react-router-dom";
+import LoginPage from "./pages/LoginPage";
 
-const AuthRoutes = () => {
-  return (
-    <AuthLayout>
-      <Routes>
-        <Route path="login" element={<LoginPage />} />
-      </Routes>
-    </AuthLayout>
-  );
-};
+const AuthRoutes = ({ onLoginSuccess }) => (
+  <Routes>
+    <Route path="/" element={<LoginPage onLoginSuccess={onLoginSuccess} />} />
+  </Routes>
+);
 
 export default AuthRoutes;
