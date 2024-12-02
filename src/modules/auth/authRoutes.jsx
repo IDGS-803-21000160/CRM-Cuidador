@@ -5,6 +5,6 @@ const AuthRoutes = ({ onLoginSuccess }) => (
   <Routes>
     <Route path="/" element={<LoginPage onLoginSuccess={onLoginSuccess} />} />
   </Routes>
-);
+);  
 
 export default AuthRoutes;

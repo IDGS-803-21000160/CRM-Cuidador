@@ -1,5 +1,11 @@
+
+import DashboardComponent from "../components/Dashboard/DashboardComponent";
+
 const Dashboard = () => {
-  return <div>Dashboard</div>;
+
+  return <>
+    <DashboardComponent/>
+  </>;
 };
 
 export default Dashboard;

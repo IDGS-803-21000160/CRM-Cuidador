@@ -1,7 +1,8 @@
-// authService.js
+
+import { API_ENDPOINT } from "../../../config/config";
 export const login = async (username, password) => {
   const response = await fetch(
-    "https://cuidadorapi.azurewebsites.net/api/crm/admin/login",
+    `${API_ENDPOINT}crm/admin/login`,
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },
