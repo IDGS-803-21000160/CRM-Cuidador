@@ -1,11 +1,16 @@
 import React, { useState } from "react";
 
-const GlobalListUsers = ({ itemsUser, setSelectedComponent }) => {
+const GlobalListUsers = ({
+  itemsUser,
+  setSelectedComponent,
+  setSelectedUser,
+}) => {
   const [usuarioSeleccionado, setUsuarioSeleccionado] = useState(null);
   const [isListVisible, setIsListVisible] = useState(false);
 
   const selectUser = (routerLink, userss) => {
     setUsuarioSeleccionado(userss);
+    setSelectedUser(userss);
     setSelectedComponent("Profile");
   };
 
@@ -17,7 +22,7 @@ const GlobalListUsers = ({ itemsUser, setSelectedComponent }) => {
     <div>
       <button
         onClick={toggleListVisibility}
-        className="fixed top-4 left-4 z-50 p-2 bg-blue-500 text-white rounded-md sm:hidden"
+        className="fixed top-18 left-4 z-50 p-2 bg-blue-500 text-white rounded-md sm:hidden"
       >
         {isListVisible ? "Cerrar Lista" : "Abrir Lista"}
       </button>
@@ -52,20 +57,22 @@ const GlobalListUsers = ({ itemsUser, setSelectedComponent }) => {
                 }`}
               >
                 <div
-                  style={{ backgroundColor: "#6096ba" }}
-                  className={`flex justify-center w-12 h-12 pt-1 rounded-full ${
+                  className={`${
                     usuarioSeleccionado === userss ? "dark:bg-gray-200" : ""
                   }`}
                 >
                   <img
-                    className="object-cover w-10 h-10 rounded-full"
+                    className="w-10 h-10 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500"
                     src={userss.persona.avatarImage}
-                    alt="User"
+                    alt="Bordered avatar"
                   />
                 </div>
                 <div className="text-left rtl:text-right">
                   <p className="text-sm font-medium text-gray-900 dark:text-white">
                     {userss.usuario.name}
+                  </p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">
+                    {userss.persona.correoElectronico}
                   </p>
                 </div>
               </button>

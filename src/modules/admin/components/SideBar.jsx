@@ -1,7 +1,18 @@
 import { Link, Outlet } from "react-router-dom";
 import isotipo from "../../../assets/isotipo.jpg";
+import { useState } from "react";
 
 const SideBar = () => {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
+  const toggleProfileMenu = () => {
+    setIsProfileMenuOpen(!isProfileMenuOpen);
+  };
   return (
     <div>
       <div>
@@ -10,6 +21,7 @@ const SideBar = () => {
             <div className="flex items-center justify-between">
               <div className="flex items-center justify-start rtl:justify-end">
                 <button
+                  onClick={toggleSidebar}
                   data-drawer-target="logo-sidebar"
                   data-drawer-toggle="logo-sidebar"
                   aria-controls="logo-sidebar"
@@ -44,6 +56,7 @@ const SideBar = () => {
                   <div>
                     <div>
                       <button
+                        onClick={toggleProfileMenu}
                         type="button"
                         className="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
                         aria-expanded="false"
@@ -57,108 +70,55 @@ const SideBar = () => {
                         />
                       </button>
                     </div>
-                    <div
-                      className="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600"
-                      id="dropdown-user"
-                    >
-                      <div className="px-4 py-3" role="none">
-                        <p
-                          className="text-sm text-gray-900 dark:text-white"
-                          role="none"
-                        >
-                          Neil Sims
-                        </p>
-                        <p
-                          className="text-sm font-medium text-gray-900 truncate dark:text-gray-300"
-                          role="none"
-                        >
-                          neil.sims@flowbite.com
-                        </p>
+                    {isProfileMenuOpen && (
+                      <div
+                        className="z-50 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600 absolute right-0 mt-2"
+                        id="dropdown-user"
+                      >
+                        <div className="px-4 py-3">
+                          <p className="text-sm text-gray-900 dark:text-white">
+                            Neil Sims
+                          </p>
+                          <p className="text-sm font-medium text-gray-900 truncate dark:text-gray-300">
+                            neil.sims@flowbite.com
+                          </p>
+                        </div>
+                        <ul className="py-1">
+                          <li>
+                            <a
+                              href="#"
+                              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
+                            >
+                              Dashboard
+                            </a>
+                          </li>
+                          <li>
+                            <a
+                              href="#"
+                              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
+                            >
+                              Solicitudes
+                            </a>
+                          </li>
+                          <li>
+                            <a
+                              href="#"
+                              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
+                            >
+                              Usuarios
+                            </a>
+                          </li>
+                          <li>
+                            <a
+                              href="#"
+                              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
+                            >
+                              Cerrar Sesión
+                            </a>
+                          </li>
+                        </ul>
                       </div>
-                      <ul className="py-1" role="none">
-                        <li>
-                          <a
-                            href="#"
-                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                            role="menuitem"
-                          >
-                            Dashboard
-                          </a>
-                        </li>
-                        <li>
-                          <a
-                            href="#"
-                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                            role="menuitem"
-                          >
-                            Solcitudes
-                          </a>
-                        </li>
-                        <li>
-                          <a
-                            href="#"
-                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                            role="menuitem"
-                          >
-                            Usuarios
-                          </a>
-                        </li>
-                        <li>
-                          <a
-                            href="#"
-                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                            role="menuitem"
-                          >
-                            Organizaciones
-                          </a>
-                        </li>
-                        <li>
-                          <a
-                            href="#"
-                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                            role="menuitem"
-                          >
-                            Historico de Ventas
-                          </a>
-                        </li>
-                        <li>
-                          <a
-                            href="#"
-                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                            role="menuitem"
-                          >
-                            Notificaciones
-                          </a>
-                        </li>
-                        <li>
-                          <a
-                            href="#"
-                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                            role="menuitem"
-                          >
-                            Feedback
-                          </a>
-                        </li>
-                        <li>
-                          <a
-                            href="#"
-                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                            role="menuitem"
-                          >
-                            Capacitaciones
-                          </a>
-                        </li>
-                        <li>
-                          <a
-                            href="#"
-                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                            role="menuitem"
-                          >
-                            Cerrar Sesión
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -169,7 +129,9 @@ const SideBar = () => {
 
       <aside
         id="logo-sidebar"
-        className="fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700"
+        className={`fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform ${
+          isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+        } bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700`}
         aria-label="Sidebar"
       >
         <div className="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
@@ -378,7 +340,7 @@ const SideBar = () => {
       </aside>
 
       <div className="p-4 sm:ml-64">
-        <div className=" sm:ml-0 p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-11">
+        <div className=" sm:ml-0   border-gray-200  dark:border-gray-700 mt-7">
           <Outlet />
         </div>
       </div>

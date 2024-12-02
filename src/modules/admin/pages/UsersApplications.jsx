@@ -4,6 +4,7 @@ import Profile from "../components/Profile";
 
 const UsersApplications = () => {
   const [selectedComponent, setSelectedComponent] = useState(null);
+  const [selectedUser, setSelectedUser] = useState(null);
 
   const itemsUser = [
     {
@@ -15,7 +16,9 @@ const UsersApplications = () => {
             name: "John Doe",
           },
           persona: {
-            avatarImage: "https://example.com/avatar1.jpg",
+            avatarImage: "/public/user-5.jpg",
+            name: "John Doe",
+            correoElectronico: "iblancarte583@gmail.com",
           },
         },
         {
@@ -24,21 +27,9 @@ const UsersApplications = () => {
             name: "Jane Smith",
           },
           persona: {
-            avatarImage: "https://example.com/avatar2.jpg",
-          },
-        },
-      ],
-    },
-    {
-      routerLink: "/another-path",
-      users: [
-        {
-          usuario: {
-            id_usuario: 3,
-            name: "Alice Johnson",
-          },
-          persona: {
-            avatarImage: "https://example.com/avatar3.jpg",
+            avatarImage: "/public/user-5.jpg",
+            name: "Sofia",
+            correoElectronico: "iblancarte583@gmail.com",
           },
         },
       ],
@@ -48,7 +39,7 @@ const UsersApplications = () => {
   const renderComponent = () => {
     switch (selectedComponent) {
       case "Profile":
-        return <Profile />;
+        return <Profile user={selectedUser} />;
       default:
         return null;
     }
@@ -59,6 +50,7 @@ const UsersApplications = () => {
       <GlobalListUsers
         itemsUser={itemsUser}
         setSelectedComponent={setSelectedComponent}
+        setSelectedUser={setSelectedUser}
         className="flex-1"
       />
       <div

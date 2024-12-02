@@ -9,6 +9,8 @@ import Notifications from "./pages/Notifications";
 import Coments from "./pages/Coments";
 import Training from "./pages/Training";
 import CaregiverApplications from "./components/CaregiverApplications/CaregiverApplications";
+import InfoPersonal from "./components/PersonalInfo/InfoPersonal";
+import InfoMedica from "./components/PersonalInfo/InfoMedica";
 
 const AdminRoutes = () => (
   <Routes>
@@ -21,7 +23,10 @@ const AdminRoutes = () => (
       <Route path="notifications" element={<Notifications />} />
       <Route path="coments" element={<Coments />} />
       <Route path="training" element={<Training />} />
-      <Route path="application" element={<UsersApplications />} />
+      <Route path="application" element={<UsersApplications />}>
+        <Route path="personalInfo" element={<InfoPersonal />} />
+        <Route path="medicalInfo" element={<InfoMedica />} />
+      </Route>
     </Route>
   </Routes>
 );
