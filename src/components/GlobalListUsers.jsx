@@ -60,7 +60,7 @@ const GlobalListUsers = ({ itemsUser, setSelectedComponent }) => {
                   <img
                     className="object-cover w-10 h-10 rounded-full"
                     src={userss.persona.avatarImage}
-                    alt="User Avatar"
+                    alt="User"
                   />
                 </div>
                 <div className="text-left rtl:text-right">
