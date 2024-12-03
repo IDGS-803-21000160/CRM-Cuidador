@@ -13,6 +13,9 @@ import InfoPersonal from "./components/PersonalInfo/InfoPersonal";
 import InfoMedica from "./components/PersonalInfo/InfoMedica";
 import DocumentacionCuidador from "./components/PersonalInfo/DocumentacionCuidador";
 import FamilyAplications from "./pages/FamilyAplications";
+import FinancesAndServices from "./pages/FinancesAndServices";
+import TableContratos from "./components/Finance/TableContratos";
+import Comentarios from "./components/Finance/Comentarios";
 
 const AdminRoutes = () => (
   <Routes>
@@ -34,6 +37,10 @@ const AdminRoutes = () => (
         <Route path="personalInfo" element={<InfoPersonal />} />
         <Route path="medicalInfo" element={<InfoMedica />} />
         <Route path="documentacion" element={<DocumentacionCuidador />} />
+      </Route>
+      <Route path="finances" element={<FinancesAndServices />}>
+        <Route path="financesServices" element={<TableContratos />} />
+        <Route path="commentarios" element={<Comentarios />} />
       </Route>
     </Route>
   </Routes>

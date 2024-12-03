@@ -4,6 +4,7 @@ const GlobalListUsers = ({
   itemsUser,
   setSelectedComponent,
   setSelectedUser,
+  title,
 }) => {
   const [usuarioSeleccionado, setUsuarioSeleccionado] = useState(null);
   const [isListVisible, setIsListVisible] = useState(false);
@@ -33,7 +34,7 @@ const GlobalListUsers = ({
       >
         <div className="flex">
           <h2 className="px-5 text-lg font-medium text-gray-800">
-            Solicitudes
+            {title || "Solicitudes"}
           </h2>
           <div className="flex pt-3">
             <span className="flex w-3 h-3 me-3 bg-sky-100 rounded-full"></span>
