@@ -51,8 +51,8 @@ const GlobalListUsers = ({
                 key={`${userIndex}-${userssIndex}`}
                 onClick={() => selectUser(user.routerLink, userss)}
                 className={`flex items-center w-full px-5 py-2 transition-colors duration-200 hover:bg-blue-50 gap-x-2 hover:bg-gray-100 focus:outline-none ${
-                  usuarioSeleccionado?.usuario.id_usuario ===
-                  userss.usuario.id_usuario
+                  usuarioSeleccionado?.usuario.idUsuario ===
+                  userss.usuario.idUsuario
                     ? "bg-gray-200"
                     : ""
                 }`}

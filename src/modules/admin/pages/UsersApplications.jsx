@@ -10,6 +10,9 @@ const UsersApplications = () => {
 
   const obtenerDatosServicios = async () => {
     const data = await getPendingUsers();
+
+    console.log("antes de que lo mapen", data);
+
     const infoMapeada = mapUserData(data);
     setItemsUser(infoMapeada);
   };

@@ -1,14 +1,25 @@
 import DataTableUsers from "../components/Users/DataTableUsers";
 import DataTablePerson from "../components/Users/DataTablePerson";
 import { useState, useEffect } from "react";
-import { getUsuarios, getPersonById, getDocumentsByPersonaId, getDocumentsByUserId, getMedicalDataByUserId, getDataMedicalByPersonId, changeStatusUser, getSchedulesByUserId, changeStatusSchedule, getAllUsersById, updateUser } from "../services/usersService";
+import {
+  getUsuarios,
+  getPersonById,
+  getDocumentsByPersonaId,
+  getDocumentsByUserId,
+  getMedicalDataByUserId,
+  getDataMedicalByPersonId,
+  changeStatusUser,
+  getSchedulesByUserId,
+  changeStatusSchedule,
+  getAllUsersById,
+  updateUser,
+} from "../services/usersService";
 import DataTableDocuments from "../components/Users/DataTableDocuments";
 import DataTableDataMedics from "../components/Users/DataTableDataMedics";
 import DataTableSchedules from "../components/Users/DataTableSchedules";
 import FormEditUser from "../components/Users/FormEditUser";
 
 const Users = () => {
-
   const [usuarios, setUsers] = useState([
     {
       id_usuario: 0,
@@ -18,7 +29,7 @@ const Users = () => {
       nivelUsuario: "",
       fecha_registro: "",
       avatar_image: "",
-    }
+    },
   ]);
 
   const [personas, setPersonas] = useState([
@@ -44,8 +55,8 @@ const Users = () => {
       estado: "",
       pais: "",
       estatusPersona: "",
-      esFamiliar : 0
-    }
+      esFamiliar: 0,
+    },
   ]);
 
   const [documentos, setDocumentos] = useState([
@@ -61,23 +72,23 @@ const Users = () => {
     },
   ]);
 
-  const [dataM, setDataM] = useState(
-    {
-      idDatosmedicos: 0,
-      antecedentesMedicos: "",
-      alergias: "",
-      tipoSanguineo: "",
-      nombreMedicofamiliar: "",
-      telefonoMedicofamiliar: "",
-      observaciones: "",
-      padecimientos: [{
+  const [dataM, setDataM] = useState({
+    idDatosmedicos: 0,
+    antecedentesMedicos: "",
+    alergias: "",
+    tipoSanguineo: "",
+    nombreMedicofamiliar: "",
+    telefonoMedicofamiliar: "",
+    observaciones: "",
+    padecimientos: [
+      {
         idPadecimiento: 0,
         nombre: "",
         descripcion: "",
-        padeceDesde: ""
-      }]
-    }
-  );
+        padeceDesde: "",
+      },
+    ],
+  });
 
   const [horarios, setHorarios] = useState([
     {
@@ -87,17 +98,17 @@ const Users = () => {
       diaSemana: "0",
       horaInicio: "",
       horaFin: "",
-      estatusid: 0
-    }
+      estatusid: 0,
+    },
   ]);
 
   const [userForm, setUserForm] = useState({
-    user:{
-      id_usuario: 0,  
-      usuario : "",
-      contrasenia : "",
+    user: {
+      id_usuario: 0,
+      usuario: "",
+      contrasenia: "",
     },
-    persona : {
+    persona: {
       id_persona: 0,
       nombre: "",
       apellido_paterno: "",
@@ -119,9 +130,9 @@ const Users = () => {
       estado: "",
       pais: "",
       estatusPersona: "",
-      esFamiliar : 0
+      esFamiliar: 0,
     },
-    datosMedicos : {
+    datosMedicos: {
       idDatosmedicos: 0,
       antecedentesMedicos: "",
       alergias: "",
@@ -129,169 +140,155 @@ const Users = () => {
       nombreMedicofamiliar: "",
       telefonoMedicofamiliar: "",
       observaciones: "",
-      padecimientos:[{
-        idPadecimiento: 0,
-        nombre: "",
-        descripcion: "",
-        padeceDesde: ""
-      }]
-    }
+      padecimientos: [
+        {
+          idPadecimiento: 0,
+          nombre: "",
+          descripcion: "",
+          padeceDesde: "",
+        },
+      ],
+    },
   });
 
   const [enableForm, setEnableForm] = useState(false);
 
   const getDataByUser = async () => {
-    try{
+    try {
       let json = await getUsuarios();
 
-      if(json !== null){
+      if (json !== null) {
         setUsers(json);
       }
-
-    }catch (e) {
-      console.log(e)
+    } catch (e) {
+      console.log(e);
     }
-  }
+  };
 
   const getPerson = async (id) => {
-    try{
+    try {
       let json = await getPersonById(id);
 
-      if(json !== null){
+      if (json !== null) {
         setPersonas(json);
         handlePageChange(1);
       }
-
-    }catch (e) {
-      console.log(e)
+    } catch (e) {
+      console.log(e);
     }
-  }
+  };
 
   const getDocuments = async (id, tipoUsuario) => {
-    try{
-      let json 
-      if(tipoUsuario === "Cliente"){
+    try {
+      let json;
+      if (tipoUsuario === "Cliente") {
         json = await getDocumentsByPersonaId(id);
-      }
-      else{
+      } else {
         json = await getDocumentsByUserId(id);
       }
 
-      if(json !== null){
+      if (json !== null) {
         console.log(json);
         setDocumentos(json);
         console.log(documentos);
         handlePageChange(2);
       }
-
-    }catch (e) {
-      console.log(e)
+    } catch (e) {
+      console.log(e);
     }
-  }
+  };
 
   const getDataMedics = async (id, tipoUsuario) => {
-    try{
-      let json
-      if(tipoUsuario === "Cliente"){
+    try {
+      let json;
+      if (tipoUsuario === "Cliente") {
         json = await getDataMedicalByPersonId(id);
-      }
-      else{
+      } else {
         json = await getMedicalDataByUserId(id);
       }
-      if(json !== null){
+      if (json !== null) {
         setDataM(json);
         handlePageChange(3);
       }
-
-    }catch (e) {
-      console.log(e)
+    } catch (e) {
+      console.log(e);
     }
-  }
+  };
 
   const changeStatusUserById = async (id, status) => {
-    try{
+    try {
       console.log(id, status);
       let response = await changeStatusUser(id, status);
 
-      if(response === true){
+      if (response === true) {
         getDataByUser();
-      }
-      else{
+      } else {
         alert("Error al cambiar el estatus del usuario");
       }
-
-    }catch (e) {
-      console.log(e)
+    } catch (e) {
+      console.log(e);
     }
-  }
+  };
 
   const getSchedules = async (id) => {
-    try{
+    try {
       let json = await getSchedulesByUserId(id);
 
-      if(json !== null){
+      if (json !== null) {
         setHorarios(json);
         handlePageChange(4);
       }
-
-    }catch (e) {
-      console.log(e)
+    } catch (e) {
+      console.log(e);
     }
-  }
+  };
 
   const enableOrDisableSchedule = async (id, status, idUser) => {
-    try{
+    try {
       let response = await changeStatusSchedule(id, status);
 
-      if(response === true){
+      if (response === true) {
         getSchedules(idUser);
-      }
-      else{
+      } else {
         alert("Error al cambiar el estatus del horario");
       }
-
-    }catch (e) {
-      console.log(e)
+    } catch (e) {
+      console.log(e);
     }
-  }
+  };
 
   const enableEditMode = async (id, tipo) => {
-    try{
+    try {
       let json = await getAllUsersById(id, tipo);
 
-      if(json !== null){
+      if (json !== null) {
         setUserForm(json);
         setEnableForm(true);
         console.log(json);
       }
-
-    }catch (e) {
-      console.log(e)
+    } catch (e) {
+      console.log(e);
     }
-  }
+  };
 
   const modifyUser = async (user) => {
-    try{
-
+    try {
       let response = await updateUser(user);
 
-      if(response === true){
+      if (response === true) {
         getDataByUser();
         setEnableForm(false);
-      } 
-      else{
+      } else {
         alert("Error al cambiar el estatus del usuario");
       }
-
-    }catch (e) {
-      console.log(e)
+    } catch (e) {
+      console.log(e);
     }
-  }
+  };
 
   useEffect(() => {
     getDataByUser();
-  }
-  , []);
+  }, []);
 
   const [indexPage, setIndexPage] = useState(0);
   const [indexPageName, setIndexPageName] = useState("Usuarios");
@@ -315,7 +312,7 @@ const Users = () => {
         setIndexPageName("Horarios");
         break;
     }
-  }
+  };
 
   const backPage = () => {
     switch (indexPage) {
@@ -344,71 +341,86 @@ const Users = () => {
         setIndexPageName("Documentos");
         break;
     }
-  }
+  };
 
   return (
-    <div className="">
+    <div className="mt-16">
+      {enableForm === false ? (
+        <>
+          <div className="ps-4 pb-5 h-full flex items-center">
+            <p
+              className="text-gray-500 dark:text-gray-400 me-5 text-sm"
+              onClick={backPage}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                className="size-6"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M7.72 12.53a.75.75 0 0 1 0-1.06l7.5-7.5a.75.75 0 1 1 1.06 1.06L9.31 12l6.97 6.97a.75.75 0 1 1-1.06 1.06l-7.5-7.5Z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </p>
+            <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100">
+              {indexPageName}
+            </h1>
+          </div>
 
-      {
-        enableForm === false ?
-          (
-            <>
-              <div className="ps-4 pb-5 h-full flex items-center">
-                <p className="text-gray-500 dark:text-gray-400 me-5 text-sm" onClick={backPage}>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
-                  <path fillRule="evenodd" d="M7.72 12.53a.75.75 0 0 1 0-1.06l7.5-7.5a.75.75 0 1 1 1.06 1.06L9.31 12l6.97 6.97a.75.75 0 1 1-1.06 1.06l-7.5-7.5Z" clipRule="evenodd" />
-                </svg>
-                </p>
-                <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100">{indexPageName}</h1>
-              </div>
-
-              <div className="">
-                {(() => {
-                  switch (indexPage) {
-                    case 0:
-                        return (
-                        <DataTableUsers 
-                          users={usuarios} 
-                          onActionsProfiles={getPerson}
-                          onActionDocs={getDocuments}
-                          onActionDataMedics={getDataMedics}
-                          onActionsEstatus={changeStatusUserById}
-                          onActionsSchedules={getSchedules}
-                          onActionEdit={(id, tipo) => enableEditMode(id, tipo)}
-                        />
-                        );
-                    case 1:
-                      return (
-                        <DataTablePerson 
-                          persons={personas} 
-                          onActionDocs={getDocuments}
-                          onActionDataMedics={getDataMedics}
-                          onActionEdit={() => setEnableForm(true)}
-                        />
-                      );
-                    case 2:
-                      return (
-                        <DataTableDocuments
-                          docs={documentos}
-                        />
-                      );
-                    case 3:
-                      return (
-                        <DataTableDataMedics dataM={dataM.padecimientos} informacionmedica={dataM}/>
-                      );
-                    default:
-                      return (
-                        <DataTableSchedules horarios={horarios} onActionsEstatus={enableOrDisableSchedule}/>
-                      );
-                  }
-                })()}
-              </div>
-            </>
-          ):
-          (
-            <FormEditUser usuario={userForm} cancel={() => setEnableForm(false)} save={modifyUser}/>
-          )
-      }
+          <div className="">
+            {(() => {
+              switch (indexPage) {
+                case 0:
+                  return (
+                    <DataTableUsers
+                      users={usuarios}
+                      onActionsProfiles={getPerson}
+                      onActionDocs={getDocuments}
+                      onActionDataMedics={getDataMedics}
+                      onActionsEstatus={changeStatusUserById}
+                      onActionsSchedules={getSchedules}
+                      onActionEdit={(id, tipo) => enableEditMode(id, tipo)}
+                    />
+                  );
+                case 1:
+                  return (
+                    <DataTablePerson
+                      persons={personas}
+                      onActionDocs={getDocuments}
+                      onActionDataMedics={getDataMedics}
+                      onActionEdit={() => setEnableForm(true)}
+                    />
+                  );
+                case 2:
+                  return <DataTableDocuments docs={documentos} />;
+                case 3:
+                  return (
+                    <DataTableDataMedics
+                      dataM={dataM.padecimientos}
+                      informacionmedica={dataM}
+                    />
+                  );
+                default:
+                  return (
+                    <DataTableSchedules
+                      horarios={horarios}
+                      onActionsEstatus={enableOrDisableSchedule}
+                    />
+                  );
+              }
+            })()}
+          </div>
+        </>
+      ) : (
+        <FormEditUser
+          usuario={userForm}
+          cancel={() => setEnableForm(false)}
+          save={modifyUser}
+        />
+      )}
     </div>
   );
 };

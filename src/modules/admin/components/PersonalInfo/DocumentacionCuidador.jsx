@@ -1,28 +1,42 @@
 import React, { useEffect, useState } from "react";
-import { getDocumentosById, updateDocumento } from "../../services/cuidadores";
+import {
+  getDocumentosById,
+  updateDocumento,
+  mapearDocumentos,
+} from "../../services/cuidadores";
+import { a } from "framer-motion/client";
+import Swal from "sweetalert2";
 
 const DocumentacionCuidador = ({ user }) => {
   const [documentos, setDocumentos] = useState([]);
   const [selectedDocumento, setSelectedDocumento] = useState(null);
   const [loading, setLoading] = useState(false);
   const [updatedDocumentos, setUpdatedDocumentos] = useState([]);
+  const [isLiberarEnabled, setIsLiberarEnabled] = useState(false);
 
+  const fetchDocumentos = async () => {
+    console.log("fetchDocumentos desde aca", user);
+
+    setLoading(true);
+    setUpdatedDocumentos([]);
+    try {
+      const documentos = await getDocumentosById(user.usuario.idUsuario);
+      setDocumentos(documentos);
+      checkAllDocumentsApproved(documentos);
+    } catch (error) {
+      console.error("Error fetching documentos:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
   useEffect(() => {
-    const fetchDocumentos = async () => {
-      setLoading(true);
-      setUpdatedDocumentos([]);
-      try {
-        const documentos = await getDocumentosById(user.usuario.id_usuario);
-        setDocumentos(documentos);
-      } catch (error) {
-        console.error("Error fetching documentos:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchDocumentos();
-  }, [user.usuario.id_usuario]);
+  }, [user.usuario.idUsuario]);
+
+  const checkAllDocumentsApproved = (documentos) => {
+    const allApproved = documentos.every((doc) => doc.estatusId === 3);
+    setIsLiberarEnabled(allApproved);
+  };
 
   const openModal = (documento) => {
     setSelectedDocumento(documento);
@@ -54,16 +68,30 @@ const DocumentacionCuidador = ({ user }) => {
 
   const confirmarCambios = async () => {
     console.log("Documentos actualizados:", updatedDocumentos);
+    const docs = mapearDocumentos(updatedDocumentos);
     try {
-      const response = await updateDocumento(updatedDocumentos);
+      const response = await updateDocumento(docs);
       if (response) {
         console.log("Documentos actualizados con éxito");
+        Swal.fire({
+          icon: "success",
+          title: "Documentos actualizados con éxito",
+          showConfirmButton: false,
+          timer: 1500,
+        }).then(() => {});
+
+        fetchDocumentos();
       } else {
         console.error("Error actualizando documentos");
       }
     } catch (error) {
       console.error("Error updating documentos:", error);
     }
+  };
+
+  const liberarUsuario = () => {
+    console.log("Usuario liberado");
+    // Aquí puedes agregar la lógica para liberar al usuario
   };
 
   return (
@@ -97,12 +125,12 @@ const DocumentacionCuidador = ({ user }) => {
               {documentos.map((documento) => (
                 <tr
                   key={documento.idDocumentacion}
-                  className={`bg-white border-b dark:bg-gray-800 dark:border-gray-700 ${
+                  className={`border-b dark:bg-gray-800 dark:border-gray-700 ${
                     documento.estatusId === 3
                       ? "bg-green-100"
                       : documento.estatusId === 4
                       ? "bg-red-100"
-                      : ""
+                      : "bg-white "
                   }`}
                 >
                   <th
@@ -162,6 +190,19 @@ const DocumentacionCuidador = ({ user }) => {
             >
               Confirmar Cambios
             </button>
+            <div className="ml-4">
+              <button
+                onClick={liberarUsuario}
+                className={`px-4 py-2 rounded-lg ${
+                  isLiberarEnabled
+                    ? "bg-blue-500 text-white"
+                    : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                }`}
+                disabled={!isLiberarEnabled}
+              >
+                Liberar Usuario
+              </button>
+            </div>
           </div>
         </div>
       )}
