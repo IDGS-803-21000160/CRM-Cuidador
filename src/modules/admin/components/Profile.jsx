@@ -3,6 +3,8 @@ import { Link, Outlet, useNavigate } from "react-router-dom";
 import "./Profile.css";
 import InfoPersonal from "./PersonalInfo/InfoPersonal";
 import InfoMedica from "./PersonalInfo/InfoMedica";
+import { useEffect } from "react";
+import DocumentacionCuidador from "./PersonalInfo/DocumentacionCuidador";
 
 const Profile = ({ user }) => {
   const [showFirstDiv, setShowFirstDiv] = useState(false);
@@ -26,6 +28,15 @@ const Profile = ({ user }) => {
       renderTabContent();
     }
   };
+
+  const navigateDocumentacion = () => {
+    setSelectedTab("documentos");
+    navigate("documentacion");
+    {
+      renderTabContent();
+    }
+  };
+
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
@@ -34,12 +45,20 @@ const Profile = ({ user }) => {
     return <div>Selecciona un usuario para ver su perfil</div>;
   }
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  useEffect(() => {
+    console.log("Hola popol", user);
+  }, [user]);
+
   const renderTabContent = () => {
     switch (selectedTab) {
       case "InfoPersonal":
         return <InfoPersonal user={user} />;
       case "InfoMedica":
         return <InfoMedica user={user} />;
+
+      case "documentos":
+        return <DocumentacionCuidador user={user} />;
 
       default:
         return <div>Selecciona una opción</div>;
@@ -76,23 +95,17 @@ const Profile = ({ user }) => {
                   <img
                     className="imgProfile rounded-full"
                     alt="Profile"
-                    src="/public/user-5.jpg"
+                    src={user.persona.avatarImage}
                   />
                 </div>
                 <div className="flex w-full justify-center">
-                  <hr
-                    className="border-cyan-300 mt-5 border-2 mr-10"
-                    style={{ width: "20%" }}
-                  />
                   <p className="mt-5 font-sans text-xl font-bold">
-                    {user.persona.name}
+                    {user.persona.nombre}
                   </p>
-                  <hr
-                    className="border-cyan-300 mt-5 border-2 ml-10"
-                    style={{ width: "20%" }}
-                  />
                 </div>
-                <p className="font-sans text-base font-medium text-slate-400"></p>
+                <p className="font-sans text-base font-medium text-slate-400">
+                  @{user.usuario.name}
+                </p>
               </section>
             </div>
             <div className="menuLarge hidden md:block">
@@ -115,17 +128,17 @@ const Profile = ({ user }) => {
                     </button>
                   </li>
                   <li className="me-2">
-                    <Link
-                      to="/familiar/profile/documentos"
+                    <button
+                      onClick={navigateDocumentacion}
                       className="inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300"
                     >
                       Documentos
-                    </Link>
+                    </button>
                   </li>
                 </ul>
               </div>
             </div>
-            <div className="menuMovil mt-32">
+            <div className="menuMovil ">
               <div className="block md:hidden">
                 <button
                   onClick={toggleMobileMenu}
@@ -196,7 +209,7 @@ const Profile = ({ user }) => {
 "
           >
             <div className="p-4 border-solid border-inherit border-2 rounded-lg">
-              <Outlet />
+              {renderTabContent()}
             </div>
           </div>
         </div>

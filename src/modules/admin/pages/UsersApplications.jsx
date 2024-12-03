@@ -1,40 +1,22 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import GlobalListUsers from "../../../components/GlobalListUsers";
 import Profile from "../components/Profile";
+import { getPendingUsers, mapUserData } from "../services/cuidadores";
 
 const UsersApplications = () => {
   const [selectedComponent, setSelectedComponent] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [itemsUser, setItemsUser] = useState([]);
 
-  const itemsUser = [
-    {
-      routerLink: "/some-path",
-      users: [
-        {
-          usuario: {
-            id_usuario: 1,
-            name: "John Doe",
-          },
-          persona: {
-            avatarImage: "/public/user-5.jpg",
-            name: "John Doe",
-            correoElectronico: "iblancarte583@gmail.com",
-          },
-        },
-        {
-          usuario: {
-            id_usuario: 2,
-            name: "Jane Smith",
-          },
-          persona: {
-            avatarImage: "/public/user-5.jpg",
-            name: "Sofia",
-            correoElectronico: "iblancarte583@gmail.com",
-          },
-        },
-      ],
-    },
-  ];
+  const obtenerDatosServicios = async () => {
+    const data = await getPendingUsers();
+    const infoMapeada = mapUserData(data);
+    setItemsUser(infoMapeada);
+  };
+
+  useEffect(() => {
+    obtenerDatosServicios();
+  }, []);
 
   const renderComponent = () => {
     switch (selectedComponent) {
@@ -53,12 +35,7 @@ const UsersApplications = () => {
         setSelectedUser={setSelectedUser}
         className="flex-1"
       />
-      <div
-        className="flex-1 sm:ml-56 ml-0 sm:w-4/5"
-        style={{ backgroundColor: "blue" }}
-      >
-        {renderComponent()}
-      </div>
+      <div className="flex-1 sm:ml-56 ml-0 sm:w-4/5">{renderComponent()}</div>
     </div>
   );
 };
