@@ -12,6 +12,7 @@ import CaregiverApplications from "./components/CaregiverApplications/CaregiverA
 import InfoPersonal from "./components/PersonalInfo/InfoPersonal";
 import InfoMedica from "./components/PersonalInfo/InfoMedica";
 import DocumentacionCuidador from "./components/PersonalInfo/DocumentacionCuidador";
+import FamilyAplications from "./pages/FamilyAplications";
 
 const AdminRoutes = () => (
   <Routes>
@@ -25,6 +26,11 @@ const AdminRoutes = () => (
       <Route path="coments" element={<Coments />} />
       <Route path="training" element={<Training />} />
       <Route path="application" element={<UsersApplications />}>
+        <Route path="personalInfo" element={<InfoPersonal />} />
+        <Route path="medicalInfo" element={<InfoMedica />} />
+        <Route path="documentacion" element={<DocumentacionCuidador />} />
+      </Route>
+      <Route path="applicationFamily" element={<FamilyAplications />}>
         <Route path="personalInfo" element={<InfoPersonal />} />
         <Route path="medicalInfo" element={<InfoMedica />} />
         <Route path="documentacion" element={<DocumentacionCuidador />} />

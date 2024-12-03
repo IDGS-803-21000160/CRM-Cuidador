@@ -1,7 +1,7 @@
 export const getPendingUsers = async () => {
   try {
     const response = await fetch(
-      "https://cuidadorapi.azurewebsites.net/api/CuidadorCRM/getPendingUsers/1/0"
+      "https://cuidadorapi.azurewebsites.net/api/CuidadorCRM/getPendingUsers/1/0/18"
     );
     if (!response.ok) {
       throw new Error("Network response was not ok");

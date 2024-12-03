@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getDocumentosById } from "../../services/cuidadores";
+import { getDocumentosById, updateDocumento } from "../../services/cuidadores";
 
 const DocumentacionCuidador = ({ user }) => {
   const [documentos, setDocumentos] = useState([]);
@@ -52,8 +52,18 @@ const DocumentacionCuidador = ({ user }) => {
     );
   };
 
-  const confirmarCambios = () => {
+  const confirmarCambios = async () => {
     console.log("Documentos actualizados:", updatedDocumentos);
+    try {
+      const response = await updateDocumento(updatedDocumentos);
+      if (response) {
+        console.log("Documentos actualizados con éxito");
+      } else {
+        console.error("Error actualizando documentos");
+      }
+    } catch (error) {
+      console.error("Error updating documentos:", error);
+    }
   };
 
   return (
@@ -103,17 +113,36 @@ const DocumentacionCuidador = ({ user }) => {
                   </th>
                   <td className="px-6 py-4">{documento.nombreDocumento}</td>
                   <td className="px-6 py-4 flex space-x-2">
-                    <button
-                      onClick={() => handleAccept(documento)}
-                      className="px-4 py-2 bg-green-500 text-white rounded-lg"
-                    >
-                      Aceptar
+                    <button onClick={() => handleAccept(documento)}>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        className="size-6"
+                        style={{ color: "green" }}
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M19.916 4.626a.75.75 0 0 1 .208 1.04l-9 13.5a.75.75 0 0 1-1.154.114l-6-6a.75.75 0 0 1 1.06-1.06l5.353 5.353 8.493-12.74a.75.75 0 0 1 1.04-.207Z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
                     </button>
-                    <button
-                      onClick={() => handleReject(documento)}
-                      className="px-4 py-2 bg-red-500 text-white rounded-lg"
-                    >
-                      Rechazar
+                    <br></br> <br></br>
+                    <button onClick={() => handleReject(documento)}>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        className="size-6"
+                        style={{ color: "red" }}
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
                     </button>
                     <button
                       onClick={() => openModal(documento)}
@@ -126,6 +155,14 @@ const DocumentacionCuidador = ({ user }) => {
               ))}
             </tbody>
           </table>
+          <div className="flex justify-end p-4">
+            <button
+              onClick={confirmarCambios}
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg"
+            >
+              Confirmar Cambios
+            </button>
+          </div>
         </div>
       )}
 
