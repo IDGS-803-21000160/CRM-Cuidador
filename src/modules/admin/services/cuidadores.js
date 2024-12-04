@@ -24,6 +24,7 @@ export const mapUserData = (data) => {
         nivelUsuario: user.nivelUsuario,
         tipoUsuario: user.tipoUsuario,
         estatusUsuario: user.estatusUsuario,
+        estatusId: user.estatusId,
       },
       persona: {
         nombre: persona.nombre,
@@ -126,4 +127,17 @@ export const updateUsuario = async (usuarioData) => {
   } catch (error) {
     console.error("There was a problem with the fetch operation:", error);
   }
+};
+
+export const mapearUsuario = (usuario) => {
+  return {
+    id_usuario: usuario.idUsuario,
+    usuarionivel_id: 6,
+    tipo_usuarioid: usuario.tipoUsuario === "Cuidador" ? 1 : 2,
+    estatusid: 10,
+    contrasenia: "",
+    usuario: usuario.name,
+    usuario_registro: 0, // Este campo no está en el objeto original, así que se asigna un valor por defecto
+    usuario_modifico: 0, // Este campo no está en el objeto original, así que se asigna un valor por defecto
+  };
 };

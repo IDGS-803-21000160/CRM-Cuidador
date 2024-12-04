@@ -23,9 +23,45 @@ const GlobalListUsers = ({
     <div>
       <button
         onClick={toggleListVisibility}
-        className="fixed top-18 left-4 z-50 p-2 bg-blue-500 text-white rounded-md sm:hidden"
+        className="fixed top-18 left-4 mt-8 z-50 p-2 bg-blue-500 text-white rounded-md sm:hidden shadow-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300 transition duration-300 ease-in-out transform hover:scale-105"
       >
-        {isListVisible ? "Cerrar Lista" : "Abrir Lista"}
+        {isListVisible ? (
+          <>
+            <svg
+              className="w-5 h-5 inline-block mr-2"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M6 18L18 6M6 6l12 12"
+              ></path>
+            </svg>
+            Cerrar Lista
+          </>
+        ) : (
+          <>
+            <svg
+              className="w-5 h-5 inline-block mr-2"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M4 6h16M4 12h16m-7 6h7"
+              ></path>
+            </svg>
+            Abrir Lista
+          </>
+        )}
       </button>
       <div
         className={`fixed top-0 left-0 z-40 w-64 h-screen sm:ml-64 pt-20 transition-transform bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700 ${
@@ -53,7 +89,7 @@ const GlobalListUsers = ({
                 className={`flex items-center w-full px-5 py-2 transition-colors duration-200 hover:bg-blue-50 gap-x-2 hover:bg-gray-100 focus:outline-none ${
                   usuarioSeleccionado?.usuario.idUsuario ===
                   userss.usuario.idUsuario
-                    ? "bg-gray-200"
+                    ? "bg-withe"
                     : ""
                 }`}
               >

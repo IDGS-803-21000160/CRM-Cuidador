@@ -3,6 +3,8 @@ import {
   getDocumentosById,
   updateDocumento,
   mapearDocumentos,
+  mapearUsuario,
+  updateUsuario,
 } from "../../services/cuidadores";
 import { a } from "framer-motion/client";
 import Swal from "sweetalert2";
@@ -89,9 +91,27 @@ const DocumentacionCuidador = ({ user }) => {
     }
   };
 
-  const liberarUsuario = () => {
-    console.log("Usuario liberado");
-    // Aquí puedes agregar la lógica para liberar al usuario
+  const liberarUsuario = async () => {
+    console.log("Usuario liberado", user.usuario);
+
+    const usuario = mapearUsuario(user.usuario);
+    console.log("Usuario mapeado", usuario);
+
+    const updateUser = await updateUsuario(usuario);
+
+    if (updateUser) {
+      console.log("Usuario actualizado con éxito");
+      Swal.fire({
+        icon: "success",
+        title: "Usuario liberado con éxito",
+        showConfirmButton: false,
+        timer: 1500,
+      }).then(() => {});
+
+      fetchDocumentos();
+    } else {
+      console.error("Error liberando usuario");
+    }
   };
 
   return (
