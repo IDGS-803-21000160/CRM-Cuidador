@@ -19,11 +19,12 @@ export const mapUserData = (data) => {
     routerLink: "/profile", // Puedes cambiarlo según tu ruta
     users: user.personaFisica.map((persona) => ({
       usuario: {
-        id_usuario: user.idUsuario,
+        idUsuario: user.idUsuario,
         name: user.usuario,
         nivelUsuario: user.nivelUsuario,
         tipoUsuario: user.tipoUsuario,
         estatusUsuario: user.estatusUsuario,
+        estatusId: user.estatusId,
       },
       persona: {
         nombre: persona.nombre,

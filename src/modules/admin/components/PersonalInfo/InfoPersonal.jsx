@@ -1,24 +1,45 @@
 import { useEffect, useState } from "react";
-import { getInfoPersonalById } from "../../services/cuidadores";
+import {
+  getInfoPersonalById,
+  getDomicilioById,
+} from "../../services/cuidadores";
+import SpinnerNoShadow from "../SpinnerNoShadow/SpinnerNoShadow";
 
 const InfoPersonal = ({ user }) => {
   const [spinnerState, setSpinnerState] = useState(false);
-  const [persona, setPersona] = useState();
+  const [persona, setPersona] = useState([]);
   const [domicilio, setDomicilio] = useState();
 
   const fetchData = async () => {
     setSpinnerState(true);
     try {
-      const data = await getInfoPersonalById(user.usuario.id_usuario);
-      if (data) {
-        setPersona(data); // Actualiza persona
+      const data = await getInfoPersonalById(user.usuario.idUsuario);
+      console.log("data de persona", data);
+      if (data && data.length > 0) {
+        setPersona(data[0]);
+        console.log("persona dentro de ", persona);
+        fetchDomicilio(data[0].idPersona);
       }
     } catch (error) {
       console.error("Error fetching personal info:", error);
     } finally {
-      console.log("Yo soy persona", persona);
+      setTimeout(() => {
+        setSpinnerState(false);
+      }, 3000);
+    }
+  };
 
-      setSpinnerState(false);
+  const fetchDomicilio = async (idPersona) => {
+    try {
+      const data = await getDomicilioById(idPersona);
+      if (data) {
+        setDomicilio(data);
+        console.log("domicilio dentro de ", domicilio);
+      }
+    } catch (error) {
+      console.error("Error fetching domicilio info:", error);
+    } finally {
+      console.log("domicilio bb");
     }
   };
 
@@ -29,7 +50,7 @@ const InfoPersonal = ({ user }) => {
   return (
     <div>
       {spinnerState ? (
-        <div className="spinner">Cargando...</div>
+        <SpinnerNoShadow />
       ) : (
         <div className="grid grid-cols-1 gap-4 mb-4">
           <form>
@@ -86,6 +107,36 @@ const InfoPersonal = ({ user }) => {
                   value: persona?.fechaNacimiento,
                   id: "fechaNac",
                   type: "date",
+                },
+                {
+                  label: "Teléfono",
+                  value: persona?.telefonoMovil,
+                  id: "telefono",
+                },
+                {
+                  label: "Teléfono Emergencia",
+                  value: persona?.telefonoEmergencia,
+                  id: "telefono emergencies",
+                },
+                {
+                  label: "CURP",
+                  value: persona?.curp,
+                  id: "curp",
+                },
+                {
+                  label: "RFC",
+                  value: persona?.rfc,
+                  id: "rfc",
+                },
+                {
+                  label: "Género",
+                  value: persona?.genero,
+                  id: "genero",
+                },
+                {
+                  label: "Estado Civil",
+                  value: persona?.estadoCivil,
+                  id: "estadoCivil",
                 },
               ].map(({ label, value, id, type = "text" }) => (
                 <div key={id} className="grid gap-6 mb-6 md:grid-cols-1">

@@ -14,6 +14,52 @@ export const getPendingUsers = async () => {
   }
 };
 
+export const getDomicilioById = async (idPersona) => {
+  try {
+    const response = await fetch(
+      `https://cuidadorapi.azurewebsites.net/api/MyProfile/getDomicilio/${idPersona}`
+    );
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("There was a problem with the fetch operation:", error);
+  }
+};
+
+export const getDatosMedicosById = async (idPersona) => {
+  try {
+    const response = await fetch(
+      `https://cuidadorapi.azurewebsites.net/api/MyProfile/getDatosMedicos/${idPersona}`
+    );
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("There was a problem with the fetch operation:", error);
+  }
+};
+
+export const getPadecimientosById = async (idPersona) => {
+  try {
+    const response = await fetch(
+      `https://cuidadorapi.azurewebsites.net/api/MyProfile/getPadecimientos/${idPersona}`
+    );
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("There was a problem with the fetch operation:", error);
+  }
+};
+
+
 export const mapUserData = (data) => {
   return data.map((user) => ({
     routerLink: "/profile", // Puedes cambiarlo según tu ruta

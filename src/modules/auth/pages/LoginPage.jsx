@@ -4,31 +4,47 @@ import isotipo from "../../../assets/isotipo.jpg";
 import "./LoginPage.css";
 import { useNavigate } from "react-router-dom";
 import { login } from "../services/authService";
+import Spinner from "../../admin/components/Spinner/Spinner";
+import Swal from "sweetalert2";
 
 const LoginPage = ({ onLoginSuccess }) => {
   const [usuario, setUsuario] = useState("");
   const [contrasenia, setContrasenia] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
   const navigate = useNavigate();
 
   const handleLogin = async () => {
+    setIsLoading(true);
+
     try {
       const userData = await login(usuario, contrasenia);
-      alert("Bienvenido", userData);
 
       if (userData) {
         onLoginSuccess();
         navigate("/admin/dashboard");
       } else {
-        alert("Error en el login: Verifica tus credenciales");
+        alerError("Verifica tus credenciales");
       }
     } catch (error) {
-      alert("Error en el login: Verifica tus credenciales");
+      alerError("Verifica tus credenciales");
       console.error(error);
+    } finally {
+      setIsLoading(false);
     }
+  };
+
+  const alerError = (message) => {
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: message,
+    });
   };
 
   return (
     <div>
+      {isLoading && <Spinner />}
       <div>
         <nav className="border-gray-200 bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
           <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">

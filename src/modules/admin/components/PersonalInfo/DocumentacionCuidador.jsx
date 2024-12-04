@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   getDocumentosById,
   updateDocumento,
@@ -6,7 +6,6 @@ import {
   mapearUsuario,
   updateUsuario,
 } from "../../services/cuidadores";
-import { a } from "framer-motion/client";
 import Swal from "sweetalert2";
 
 const DocumentacionCuidador = ({ user }) => {
